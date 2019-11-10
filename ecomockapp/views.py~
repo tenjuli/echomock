@@ -1,0 +1,63 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.template import loader
+
+from .forms import ScenarioForm, PluginForm
+from .models import Scenario, Plugin
+
+# def index(request):
+#     return HttpResponse("<h3>Hello, world. You're at the Scenario index.</h3>")
+
+# def index(request):
+#     latest_scenario_list = Scenario.objects.order_by('-release_date')[:5]
+# 
+#     template = loader.get_template('ecomockapp/index.html')
+#     context = {
+#         'latest_scenario_list': latest_scenario_list,
+#     }
+#     return HttpResponse(template.render(context, request))
+
+# def index(request):
+#     latest_scenario_list = Scenario.objects.order_by('-release_date')[:5]
+# 
+#     context = {'latest_scenario_list': latest_scenario_list}
+#     return render(request, 'ecomockapp/index.html', context)
+
+from .forms import ScenarioForm
+
+def index(request):
+    if request.method == 'POST':
+        form = ScenarioForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/ecomockapp/')
+
+    form = ScenarioForm()
+    obj = Scenario.objects.all()
+
+    latest_scenario_list = Scenario.objects.order_by ('-release_date')[:5]
+    return render(request, 'ecomockapp/index.html', {
+        'form': form,
+        'obj': obj,
+        'latest_scenario_list': latest_scenario_list
+    })
+
+def plugin(request):
+    if request.method == 'POST':
+        form = PluginForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/ecomockapp/plugin')
+
+    form = PluginForm()
+    obj = Plugin.objects.all()
+
+    latest_plugin_list = Plugin.objects.order_by ('-release_date')[:5]
+    return render(request, 'ecomockapp/plugin.html', {
+        'form': form,
+        'obj': obj,
+        'latest_plugin_list': latest_plugin_list
+    })
+
+# Ends here.

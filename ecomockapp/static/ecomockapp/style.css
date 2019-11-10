@@ -1,0 +1,19 @@
+a {
+    color: green;
+}
+
+p {
+    color: blue;
+}
+
+body {
+    background: floralwhite;
+    /* background: cornsilk; */
+    /* background: whitesmoke; */
+    /* background: white url("images/mbuntu-11.jpg") no-repeat; */
+}
+
+div.box { height: 0px; position: relative; }
+.right {
+    text-align: right;
+}

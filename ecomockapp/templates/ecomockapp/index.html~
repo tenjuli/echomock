@@ -1,0 +1,83 @@
+{% if latest_scenario_list %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>シナリオモジュール登録</title>
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'ecomockapp/style.css' %}">
+  </head>
+
+  <body>
+
+    <h3>シナリオモジュール登録</h3>
+
+    <div class='box'>
+      <div class='right'>
+        <a id='switch' href="{% url 'plugin' %}">プラグインモジュール登録</a>
+      </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">登録</button>
+    </form>
+
+    <hr>
+
+    <h3>登録シナリオモジュール一覧</h3>
+
+    <table>
+
+      <th>項番</th>
+      <th>名称</th>
+      <th>概要</th>
+      <th>説明</th>
+      <th>必須プラグイン</th>
+      <th>作者</th>
+      <th>シナリオファイル</th>
+      <th>公開日</th>
+
+      {% for scenario in latest_scenario_list %}
+
+      <tr>
+        <td>
+          {{ scenario.id }}
+        </td>
+        <td>
+          <!-- static/ecomockapp/scenarios/two.txt -->
+          <a href="{% static "/ecomockapp/" %}{{ scenario.scenario.url }}"
+             download="{{ scenario.scenario.name }}">
+            {{ scenario.name }}
+          </a>
+        </td>
+        <td>
+          {{ scenario.summary }}
+        </td>
+        <td>
+          {{ scenario.description }}
+        </td>
+        <td>
+          {{ scenario.require }}
+        </td>
+        <td>
+          {{ scenario.author }}
+        </td>
+        <td>
+          {{ scenario.scenario }}
+        </td>
+        <td>
+          {{ scenario.release_date }}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No scenarios are available.</p>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,83 @@
+{% if latest_plugin_list %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>プラグインモジュール登録</title>
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'ecomockapp/style.css' %}">
+  </head>
+
+  <body>
+
+    <h3>プラグインモジュール登録</h3>
+
+    <div class='box'>
+      <div class='right'>
+        <a id='switch' href="/ecomockapp">シナリオモジュール登録</a>
+      </div>
+    </div>
+
+o    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">登録</button>
+    </form>
+
+    <hr>
+
+    <h3>登録プラグインモジュール一覧</h3>
+
+    <table>
+
+      <th>項番</th>
+      <th>名称</th>
+      <th>概要</th>
+      <th>説明</th>
+      <th>操作対象</th>
+      <th>作者</th>
+      <th>プラグインモジュール</th>
+      <th>公開日</th>
+
+      {% for plugin in latest_plugin_list %}
+
+      <tr>
+        <td>
+          {{ plugin.id }}
+        </td>
+        <td>
+          <!-- static/ecomockapp/plugins/two.txt -->
+          <a href="{% static "/ecomockapp/" %}{{ plugin.plugin.url }}"
+             download="{{ plugin.plugin.name }}">
+            {{ plugin.name }}
+          </a>
+        </td>
+        <td>
+          {{ plugin.summary }}
+        </td>
+        <td>
+          {{ plugin.description }}
+        </td>
+        <td>
+          {{ plugin.target }}
+        </td>
+        <td>
+          {{ plugin.author }}
+        </td>
+        <td>
+          {{ plugin.plugin }}
+        </td>
+        <td>
+          {{ plugin.release_date }}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No plugins are available.</p>
+    {% endif %}
+  </body>
+</html>

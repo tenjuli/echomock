@@ -1,0 +1,12 @@
+li a {
+    color: green;
+}
+
+div {
+    color: blue;
+}
+
+body {
+    background: white;
+    /* background: white url("images/mbuntu-11.jpg") no-repeat; */
+}
